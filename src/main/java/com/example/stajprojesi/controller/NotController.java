@@ -9,30 +9,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/notlar")
+@RequestMapping("/api")
 public class NotController {
 
     @Autowired
     private NotRepository notRepository;
 
-    @GetMapping
+    //  tüm notları listeleyen metod
+    @GetMapping("/notlar")
     public List<Not> getAll() {
         return notRepository.findAll();
     }
 
-    @PostMapping
+    //  yalnızca ilgili öğrencinin notlarını döner
+    @GetMapping("/ogrenciler/{ogrenciId}/notlar")
+    public List<Not> getByOgrenci(@PathVariable Long ogrenciId) {
+        return notRepository.findByOgrenciId(ogrenciId);
+    }
+
+    @PostMapping("/notlar")
     public Not create(@Valid @RequestBody Not n) {
         return notRepository.save(n);
     }
 
-    @PutMapping("/{id}")
-    public Not update(@PathVariable Long id,
-                      @Valid @RequestBody Not n) {
+    @PutMapping("/notlar/{id}")
+    public Not update(@PathVariable Long id, @Valid @RequestBody Not n) {
         n.setId(id);
         return notRepository.save(n);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/notlar/{id}")
     public void delete(@PathVariable Long id) {
         notRepository.deleteById(id);
     }
