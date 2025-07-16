@@ -1,26 +1,18 @@
 import { useState } from "react";
-import OgrenciForm from "./components/OgrenciForm";
-import OgrenciListesi from "./components/OgrenciListesi";
-import "./index.css";
+import LoginForm from "./components/LoginForm";
+import GirisSecimi from "./components/GirisSecimi";
 
 function App() {
-  const [selected, setSelected] = useState(null);
-  const [refresh, setRefresh] = useState(false);
-
-  const handleRefresh = () => {
-    setSelected(null);
-    setRefresh(!refresh);
-  };
+  const [rol, setRol] = useState(null); // Henüz giriş tipi seçilmedi
 
   return (
-    <div className="p-6 max-w-3xl mx-auto text-white">
-      <h1 className="text-3xl font-bold mb-6 flex items-center gap-2">
-        🎓 Öğrenci Takip Sistemi
-      </h1>
-      <OgrenciForm selected={selected} onSave={handleRefresh} />
-      <hr className="my-6 border-gray-600" />
-      <OgrenciListesi onEdit={setSelected} key={refresh} />
-    </div>
+    <>
+      {rol ? (
+        <LoginForm rol={rol} />
+      ) : (
+        <GirisSecimi onSelect={(secilenRol) => setRol(secilenRol)} />
+      )}
+    </>
   );
 }
 
